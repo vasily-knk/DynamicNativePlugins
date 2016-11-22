@@ -40,7 +40,7 @@ extern "C" plugin_id UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
 
     if (it == g_plugins.end())
         return plugin_id_none;
-
+                                            
     return it->first;    
 }
                             

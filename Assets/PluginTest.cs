@@ -14,14 +14,15 @@ public class PluginTest : MonoBehaviour
         public GetNumber getNumber;
     }
 
-    private const string PluginName = @"C:\my\unity\DynamicNativePlugins\native\out\bin\Debug_x64\plugin1.dll";
 
     private PluginData? _plugin = null;
     
     // Use this for initialization
 	void Start ()
 	{
-	    var idd =  DynamicPluginsManager.Register(PluginName);
+        var pluginName = string.Format("{0}/../native/out/bin/{1}_{2}/plugin1.dll", Application.dataPath, "Debug", "x64");
+        Debug.Log(pluginName);
+	    var idd =  DynamicPluginsManager.Register(pluginName);
         _plugin = new PluginData
         {
             id = idd,

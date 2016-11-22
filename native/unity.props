@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>C:\Program Files\Unity\Editor\Data\PluginAPI;$(IncludePath)</IncludePath>
+    <IncludePath>$(UNITY_DIR)\Editor\Data\PluginAPI;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup />

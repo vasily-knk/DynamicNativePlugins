@@ -23,7 +23,7 @@ EXPORTED_FUNCTION(void) UnityPluginUnload()
 
 void UNITY_INTERFACE_API on_rendering_event(int event_id)
 {
-    g_log_file << "Plugin1 rendering event: " << event_id << std::endl;
+    g_log_file << "Plugin1 rendering event: " << event_id << std::endl;       
 }
 
 

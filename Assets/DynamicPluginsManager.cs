@@ -18,7 +18,20 @@ public class DynamicPluginsManager
 
     public class PluginException
         : Exception
-    { }
+    {
+        private readonly string _name;
+
+        public PluginException(string name)
+        {
+            _name = name;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Bad plugin: {0}", _name);
+        }
+
+    }
 
     public static PluginId? Find(string name)
     {
@@ -35,7 +48,7 @@ public class DynamicPluginsManager
         if (ValidId(id))
             return new PluginId(id);
 
-        throw new PluginException();
+        throw new PluginException(name);
     }
 
     public static void Unregister(PluginId id)
@@ -59,16 +72,16 @@ public class DynamicPluginsManager
         return id != IntPtr.Zero;
     }
 
-    private const string lib_name = "dynamic_plugins_manager";
-    [DllImport(lib_name)]
+    private const string LibName = "dynamic_plugins_manager";
+    [DllImport(LibName)]
     private static extern IntPtr find_plugin([MarshalAs(UnmanagedType.LPStr)] string name);
-    [DllImport(lib_name)]
+    [DllImport(LibName)]
     private static extern IntPtr register_plugin([MarshalAs(UnmanagedType.LPStr)] string name);
-    [DllImport(lib_name)]
+    [DllImport(LibName)]
     private static extern void unregister_plugin(IntPtr id);
-    [DllImport(lib_name)]
+    [DllImport(LibName)]
     private static extern IntPtr get_rendering_event(IntPtr id);
-    [DllImport(lib_name)]
+    [DllImport(LibName)]
     private static extern IntPtr get_plugin_function(IntPtr id, [MarshalAs(UnmanagedType.LPStr)] string name);
 }
 

@@ -4,11 +4,15 @@ struct lib_wrapper
 {
     explicit lib_wrapper(wchar_t const *filename)
         : lib_(LoadLibraryW(filename))
-    {}
+    {
+        init();
+    }
     
     explicit lib_wrapper(char const *filename)
         : lib_(LoadLibraryA(filename))
-    {}
+    {
+        init();
+    }
     
     lib_wrapper(lib_wrapper const&) = delete;
     lib_wrapper &operator=(lib_wrapper const&) = delete;
@@ -23,7 +27,6 @@ struct lib_wrapper
         std::swap(lib_, rhs.lib_);
     }
     
-
     template<typename Func>
     Func get_function(char const *name) const
     {
@@ -44,6 +47,16 @@ struct lib_wrapper
     bool valid() const
     {
         return lib_ != nullptr;
+    }
+
+private:
+    void init()
+    {
+        if (!lib_)
+        {
+            auto error_id = GetLastError();  
+            int aaa = 5;                     
+        }
     }
     
 private:

@@ -2,55 +2,37 @@
 using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using UnityEditor;
 
 
 public class PluginTest : MonoBehaviour
 {
-    private delegate int GetNumber();
-    
-    private struct PluginData
-    {
-        public DynamicPluginsManager.PluginId id;
-        public GetNumber getNumber;
-    }
+    private Vector3 _oldPos;
 
-
-    private PluginData? _plugin = null;
-    
     // Use this for initialization
 	void Start ()
 	{
-        var pluginName = string.Format("{0}/../native/out/bin/{1}_{2}/plugin1.dll", Application.dataPath, "Debug", "x64");
-        Debug.Log(pluginName);
-	    var idd =  DynamicPluginsManager.Register(pluginName);
-        _plugin = new PluginData
-        {
-            id = idd,
-            getNumber = DynamicPluginsManager.GetFunction<GetNumber>(idd, "get_number") as GetNumber,
-        };
-
-        Debug.LogFormat("Number: {0}", _plugin.Value.getNumber());
+        Debug.LogFormat("Number: {0}", Plugin1.Instance.GetNumber());
+	    var tex = Resources.Load<Texture2D>("grass");
+        Plugin1.Instance.ProcessTexture(tex.GetNativeTexturePtr());
 	}
 
-    void OnDestroy()
+    void Update()
     {
-        Shutdown();
+        var pos = gameObject.transform.position;
+        if (pos != _oldPos)
+        {
+            Debug.LogFormat("Postion: {0}", pos);
+            _oldPos = pos;
+        }
     }
-	
+
 	void OnPreRender () {
+        GL.IssuePluginEvent(Plugin1.Instance.GetRenderingEvent(), 117);
 	}
 
     void OnApplicationQuit()
     {
-        Shutdown();
-    }
-
-    private void Shutdown()
-    {
-        if (_plugin == null)
-            return;
-
-        DynamicPluginsManager.Unregister(_plugin.Value.id);
-        _plugin = null;
+        Plugin1.Shutdown();
     }
 }

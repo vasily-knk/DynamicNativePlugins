@@ -1,0 +1,100 @@
+path
+{
+    data "C:/work/simlabs-repo/ext/data"
+}
+
+cluster 
+{
+    sync_eps  0.04
+}
+
+kernel
+{
+    wp
+    {
+        session_client "base_wp|session_client"
+        enable_rotate_on_editing true
+        ;default_zoom 300000
+        ;default_lat  43.398  ;Knevichi-UHWW
+        ;default_lon  132.149 ;Knevichi-UHWW
+        ;default_lat  50.643  ;Belgorod-UUOB
+        ;default_lon  36.591  ;Belgorod-UUOB
+        default_lat  39  ;US
+        default_lon  -100  ;US
+        ;default_azimuth 0 
+        scenario_mode false
+        enable_web_ui false
+    }
+    serialization
+    {
+        skip_ani false
+        skip_fpl_procedure false
+    }
+    system
+    {
+        ;magnetic_bearing 10 ;Knevichi
+        magnetic_bearing 8  ;Belgorod        
+        transition_height 1800
+        transition_level 80
+        enable_scripting true
+    }
+    objects
+    {
+        import_factory "objects|import_factory"
+        base objects.xml
+        controller "controller_objects.xml"
+        pilot      "pilot_objects.xml"
+        disabled   "wizard"
+    }
+
+    radar
+    {
+        lost_periods            3   ; amount of radar periods to mark aircraft lost, if no signal is received from it
+        switch_to_emulation     1   ; time to switch to extrapolation after full radar circle 
+        start_adf_udp_port      32101
+    }
+    
+    fms
+    {
+        ground_conflicts
+        {
+            smd_jet         45.72
+            smd_turboprop   22.86
+            smd_piston      7.62
+            wing_separation 9.144
+        }
+    }
+    
+    record_history_path "c:/simlabs.atc.history"; empty means no record
+}
+ 
+sound
+{
+    new_atis ""; ex: "sound/new_atis.wav"
+}
+
+test_bed
+{
+    chart_scripts true
+    auto_start true
+    auto_finish true
+    enable_test_logging true
+    test_logger "teamcity_support|create_logger"
+    update_ui_dict false
+}
+
+ui
+{
+    uom_preset                  metric
+    time_preset                 default
+    date_preset                 default
+    lat_lon_preset              default
+    decimal_separator           ","
+    group_separator             ""
+    language                    en
+    label_preset                default
+    resources_preset            default
+    widgets_preset              default
+    styles_preset               default
+    fullscreen                  false
+}

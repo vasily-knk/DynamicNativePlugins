@@ -46,7 +46,7 @@ extern "C" plugin_id UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
                             
 extern "C" plugin_id UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
     register_plugin(char const *name)              
-{
+{                           
     auto exisiting_id = find_plugin(name);
     if (exisiting_id != plugin_id_none)
         return plugin_id_none;
@@ -56,9 +56,10 @@ extern "C" plugin_id UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
         return plugin_id_none;
 
     auto id = rp->id();
-    g_plugins.emplace(id, rp);
+    g_plugins.emplace(id, rp);               
 
-    return id;
+
+    return id;                          
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
